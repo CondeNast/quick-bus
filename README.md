@@ -36,6 +36,10 @@ channel.subscribe('metrics.#', function (topic, msg) {
 channel.publish('metrics.page.loaded', 'hello world');
 ```
 
+### How it works
+
+A Bus builds a directed graph of subscriptions.  As event topics are published, the graph discovers all the subscribers that should be notified and the results are cached for faster message publishing in the future.  When a new subscriber is added, the graph is modified and the cache is reset.
+
 ### Wildcard subscriptions
 
 Supports same wildcards as Postal.js, such as:
@@ -85,5 +89,9 @@ channel.emit('ads.slot.post-nav.filled', {data, msg});
 - [License - Apache 2.0](https://github.com/CondeNast/quick-bus/blob/master/LICENSE.md)
 - [Code of Conduct - Contributor Covenant v1.4](https://github.com/CondeNast/quick-bus/blob/master/CODE_OF_CONDUCT.md)
 - [Contributing Guidelines - Atom and Rails](https://github.com/CondeNast/quick-bus/blob/master/CONTRIBUTING.md)
+
+### Related Topics
+
+- [RabbitMX Topic Exchange tutorial explaining * and # wildcards](https://www.rabbitmq.com/tutorials/tutorial-five-javascript.html)
 
 ![Conde Nast Technology Logo](https://user-images.githubusercontent.com/4154804/34785005-e70e4326-f5fd-11e7-8ae6-759c3b0300b5.png)
