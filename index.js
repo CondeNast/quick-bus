@@ -55,15 +55,24 @@ var Bus = (function () {
 
   return function Bus() {
     var head = { w: '', r: {}, i: headCount++ };
+    var emitCache = {}; // memoize graph lookups
 
     function on(topicStr, fn) {
       var lastNode = add(topicStr.split('.'), head);
       lastNode.fn = lastNode.fn || [];
       lastNode.fn.push(fn);
+      emitCache = {}; // forget graph lookups because everything has changed
     }
 
     function emit(topicStr, message) {
+      if (emitCache[topicStr]) { // use previous work if available
+        return emitCache[topicStr];
+      }
+
       var list = getList(topicStr.split('.'), head);
+
+      emitCache[topicStr] = list; // remember previous work
+
       for (var i = 0; i < list.length; i++) {
         var fn = list[i];
         for (var j = 0; j < fn.length; j++) {
