@@ -1,12 +1,12 @@
 {
   "name": "@condenast/quick-bus",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A tiny and fast event bus with AMQP and Postal.js-like functionality",
   "main": "index.min.js",
   "scripts": {
     "build": "uglifyjs --compress --mangle --output index.min.js -- index.js",
     "test": "karma start",
-    "publish": "npm run build"
+    "prepublish": "npm run build"
   },
   "keywords": [
     "postal",
