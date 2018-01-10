@@ -1,4 +1,4 @@
-# Quick Bus
+# Quick Bus 🚌
 
 A tiny event bus with AMQP and Postal.js-like functionality meant to be used on the client-side.
 
