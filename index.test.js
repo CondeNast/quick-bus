@@ -35,6 +35,26 @@ describe('exact matches', function () {
 });
 
 describe('wildstar *', function () {
+  it('a.* does not find a', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.on('a.*', spy);
+    bus.emit('a');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('*.a does not find a', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.on('*.a', spy);
+    bus.emit('a');
+
+    sinon.assert.notCalled(spy);
+  });
+
   it('a.* finds a.b', function () {
     const bus = new Bus();
     const spy = sinon.spy();
@@ -83,6 +103,29 @@ describe('wildstar *', function () {
     bus.emit('a.b.c');
 
     sinon.assert.notCalled(spy);
+  });
+
+  it('a.*.d does not find a.b.c.d', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.on('a.*.d', spy);
+    bus.emit('a.b.c.d');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('a.*.d does not find a.b.c.d meanwhile a.#.d does', function () {
+    const bus = new Bus();
+    const spy1 = sinon.spy();
+    const spy2 = sinon.spy();
+
+    bus.on('a.*.d', spy1);
+    bus.on('a.#.d', spy2);
+    bus.emit('a.b.c.d');
+
+    sinon.assert.notCalled(spy1);
+    sinon.assert.called(spy2);
   });
 
   it('emits and receives multiple', function () {

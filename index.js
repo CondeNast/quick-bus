@@ -18,6 +18,7 @@ var Bus = (function () {
   }
 
   function getList(topic, graph) {
+    debugger;
     var routes = [[graph, 0]];
     var finalNodes = {}; // track found nodes, no duplicates should be returned
     var finalRoutes = []; // remember found functions to call
@@ -37,15 +38,12 @@ var Bus = (function () {
       }
 
       if (right['#']) {
-        if (index < topic.length) {
-          routes.push([cursor, index + 1]);
+        for (var i = index; i <= topic.length; i++) {
+          routes.push([right['#'], i]);
         }
-
-        routes.push([right['#'], index]);
-        routes.push([right['#'], index + 1]);
       }
 
-      if (right['*']) {
+      if (word && right['*']) {
         routes.push([right['*'], index + 1]);
       }
     }
@@ -65,11 +63,12 @@ var Bus = (function () {
     }
 
     function emit(topicStr, message) {
+      var list;
       if (emitCache[topicStr]) { // use previous work if available
-        return emitCache[topicStr];
+        list = emitCache[topicStr];
+      } else {
+        list = getList(topicStr.split('.'), head);
       }
-
-      var list = getList(topicStr.split('.'), head);
 
       emitCache[topicStr] = list; // remember previous work
 
@@ -94,4 +93,10 @@ var Bus = (function () {
 if (typeof exports !== 'undefined') {
   module.exports = Bus;
 }
+
+var bus = new Bus();
+
+bus.on('a.*.d', function () { console.log('a.*.d') });
+bus.on('a.#.d', function () { console.log('a.#.d') });
+bus.emit('a.b.c.d');
 
