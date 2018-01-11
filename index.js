@@ -93,10 +93,3 @@ var Bus = (function () {
 if (typeof exports !== 'undefined') {
   module.exports = Bus;
 }
-
-var bus = new Bus();
-
-bus.on('a.*.d', function () { console.log('a.*.d') });
-bus.on('a.#.d', function () { console.log('a.#.d') });
-bus.emit('a.b.c.d');
-
