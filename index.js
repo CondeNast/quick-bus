@@ -18,7 +18,6 @@ var Bus = (function () {
   }
 
   function getList(topic, graph) {
-    debugger;
     var routes = [[graph, 0]];
     var finalNodes = {}; // track found nodes, no duplicates should be returned
     var finalRoutes = []; // remember found functions to call
