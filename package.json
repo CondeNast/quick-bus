@@ -1,6 +1,6 @@
 {
   "name": "@condenast/quick-bus",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A tiny and fast event bus with AMQP and Postal.js-like functionality",
   "main": "index.min.js",
   "scripts": {
