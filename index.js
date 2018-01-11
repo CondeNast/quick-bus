@@ -2,6 +2,33 @@ var Bus = (function () {
   'use strict';
 
   var headCount = 0;
+  var historyMax = 9999;
+
+  function Ring(max) {
+    var list = [];
+    var end = 0;
+    var start = 0;
+    this.push = function (item) {
+      if (end - start >= max) {
+        start++;
+        if (start >= max) {
+          start = 0;
+          end = max - 1;
+        }
+      }
+      var index = end % max;
+      list[index] = item;
+
+      end++;
+    };
+    this.asArray = function () {
+      var first = list.slice(start, Math.min(end, max));
+      var second = list.slice(0, Math.max(end - max, 0));
+
+      return first.concat(second);
+    };
+    this.list = list;
+  }
 
   function add(topic, graph) {
     var cursor = graph;
@@ -50,9 +77,40 @@ var Bus = (function () {
     return finalRoutes;
   }
 
-  return function Bus() {
+  function getCachedList(topicStr, graph, cache) {
+    var list;
+
+    if (cache[topicStr]) { // use previous work if available
+      list = cache[topicStr];
+    } else {
+      list = getList(topicStr.split('.'), graph);
+      cache[topicStr] = list; // remember previous work
+    }
+
+    return list;
+  }
+
+  var Bus = function Bus() {
     var head = { w: '', r: {}, i: headCount++ };
     var emitCache = {}; // memoize graph lookups
+    var historyCache = new Ring(historyMax);
+
+    function getHistory(topicStr) {
+      var partialGraph = { w: '', r: {}, i: headCount++ };
+      var lastNode = add(topicStr.split('.'), partialGraph);
+      lastNode.fn = 1;
+      var timeline = [];
+      var cache = {};
+      var log = historyCache.asArray();
+
+      for (var i = 0; i < log.length; i++) {
+        var entry = log[i];
+        if(getCachedList(entry[0], partialGraph, cache).length) {
+          timeline.push(entry);
+        }
+      }
+      return timeline;
+    }
 
     function on(topicStr, fn) {
       var lastNode = add(topicStr.split('.'), head);
@@ -62,14 +120,8 @@ var Bus = (function () {
     }
 
     function emit(topicStr, message) {
-      var list;
-      if (emitCache[topicStr]) { // use previous work if available
-        list = emitCache[topicStr];
-      } else {
-        list = getList(topicStr.split('.'), head);
-      }
-
-      emitCache[topicStr] = list; // remember previous work
+      historyCache.push([topicStr, Date.now()]);
+      var list = getCachedList(topicStr, head, emitCache);
 
       for (var i = 0; i < list.length; i++) {
         var fn = list[i];
@@ -82,11 +134,17 @@ var Bus = (function () {
     // public methods
     this.emit = emit;
     this.on = on;
+    this.history = getHistory;
 
     // alias
     this.publish = emit;
     this.subscribe = on;
-  }
+  };
+
+  // public classes
+  Bus.Ring = Ring;
+
+  return Bus;
 }());
 
 if (typeof exports !== 'undefined') {

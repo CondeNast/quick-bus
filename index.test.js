@@ -259,3 +259,157 @@ describe('wildstar #', function () {
     sinon.assert.called(spy3);
   });
 });
+
+describe('history', function () {
+  it('no events and no entries gives no history', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    expect(bus.history('a').length).to.equal(0);
+  });
+
+  it('mismatched topic gives no history', function () {
+    const bus = new Bus();
+
+    bus.emit('a');
+
+    expect(bus.history('b').length).to.equal(0);
+  });
+
+  it('wildcard * gives selective history', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.emit('a');
+    bus.emit('a.b');
+    bus.emit('a.b.c');
+
+    expect(bus.history('a.*').length).to.equal(1);
+  });
+
+  it('wildcard # gives selective history', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.emit('a');
+    bus.emit('a.b');
+    bus.emit('a.c');
+    bus.emit('a.b.c');
+
+    expect(bus.history('a.#.c').length).to.equal(2);
+  });
+
+  it('1 entry', function () {
+    const bus = new Bus();
+    const spy = sinon.spy();
+
+    bus.on('a', spy);
+    bus.emit('a');
+    expect(bus.history('a')[0][0]).to.equal('a');
+
+    sinon.assert.called(spy);
+  });
+});
+
+describe('Ring', function () {
+  it('no events and no entries gives no history', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('hi');
+
+    expect(ring.asArray()).to.deep.equal(['hi']);
+  });
+
+  it('no events and no entries gives no history', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('a');
+    ring.push('b');
+
+    expect(ring.asArray()).to.deep.equal(['a', 'b']);
+  });
+
+  it('list can wrap', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('a');
+    expect(ring.list).to.deep.equal(['a']);
+    ring.push('b');
+    expect(ring.list).to.deep.equal(['a', 'b']);
+    ring.push('c');
+    expect(ring.list).to.deep.equal(['c', 'b']);
+    ring.push('d');
+    expect(ring.list).to.deep.equal(['c', 'd']);
+  });
+
+  it('asArray can wrap 2 3', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('a');
+    expect(ring.asArray()).to.deep.equal(['a']);
+    ring.push('b');
+    expect(ring.asArray()).to.deep.equal(['a', 'b']);
+    ring.push('c');
+    expect(ring.asArray()).to.deep.equal(['b', 'c']);
+  });
+
+  it('asArray can wrap 2 4', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('a');
+    expect(ring.asArray()).to.deep.equal(['a']);
+    ring.push('b');
+    expect(ring.asArray()).to.deep.equal(['a', 'b']);
+    ring.push('c');
+    expect(ring.asArray()).to.deep.equal(['b', 'c']);
+    ring.push('d');
+    expect(ring.asArray()).to.deep.equal(['c', 'd']);
+  });
+
+
+  it('asArray can wrap once', function () {
+    const ring = new Bus.Ring(2);
+
+    ring.push('a');
+    expect(ring.asArray()).to.deep.equal(['a']);
+    ring.push('b');
+    expect(ring.asArray()).to.deep.equal(['a', 'b']);
+    ring.push('c');
+    expect(ring.asArray()).to.deep.equal(['b', 'c']);
+    ring.push('d');
+    expect(ring.asArray()).to.deep.equal(['c', 'd']);
+    ring.push('e');
+    expect(ring.asArray()).to.deep.equal(['d', 'e']);
+  });
+
+  it('asArray can wrap twice', function () {
+    const ring = new Bus.Ring(5);
+
+    ring.push('a');
+    expect(ring.asArray()).to.deep.equal(['a']);
+    ring.push('b');
+    expect(ring.asArray()).to.deep.equal(['a', 'b']);
+    ring.push('c');
+    expect(ring.asArray()).to.deep.equal(['a', 'b', 'c']);
+    ring.push('d');
+    expect(ring.asArray()).to.deep.equal(['a', 'b', 'c', 'd']);
+    ring.push('e');
+    expect(ring.asArray()).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
+    ring.push('f');
+    expect(ring.asArray()).to.deep.equal(['b', 'c', 'd', 'e', 'f']);
+    ring.push('g');
+    expect(ring.asArray()).to.deep.equal(['c', 'd', 'e', 'f', 'g']);
+    ring.push('h');
+    expect(ring.asArray()).to.deep.equal(['d', 'e', 'f', 'g', 'h']);
+    ring.push('i');
+    expect(ring.asArray()).to.deep.equal(['e', 'f', 'g', 'h', 'i']);
+    ring.push('j');
+    expect(ring.asArray()).to.deep.equal(['f', 'g', 'h', 'i', 'j']);
+    ring.push('k');
+    expect(ring.asArray()).to.deep.equal(['g', 'h', 'i', 'j', 'k']);
+    ring.push('l');
+    expect(ring.asArray()).to.deep.equal(['h', 'i', 'j', 'k', 'l']);
+  });
+});
+
+
