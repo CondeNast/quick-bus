@@ -24,4 +24,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Initial Release
 
 <!-- Update the Unreleased comparison range with each release -->
-[Unreleased]: https://github.com/CondeNast/tk/compare/x.y.z...master
+[Unreleased]: https://github.com/CondeNast/quick-bus/compare/x.y.z...master

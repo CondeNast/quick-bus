@@ -2,6 +2,12 @@
 
 A tiny event bus with AMQP and Postal.js-like functionality meant to be used on the client-side.
 
+[![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat)](LICENSE)
+
+_Proudly built by:_
+
+<a href="https://technology.condenast.com"><img src="https://user-images.githubusercontent.com/1215971/35070721-3f136cdc-fbac-11e7-81b4-e3aa5cc70a17.png" title="Conde Nast Technology" width=350/></a>
+
 ### What is it?
 
 This is a simple event bus that replicates the basics of Postal.js in about 80 lines of code (minified to 773 bytes)
@@ -131,5 +137,3 @@ Note that this feature is designed for _metrics_, and often the information that
 ### Related Topics
 
 - [RabbitMX Topic Exchange tutorial explaining * and # wildcards](https://www.rabbitmq.com/tutorials/tutorial-five-javascript.html)
-
-![Conde Nast Technology Logo](https://user-images.githubusercontent.com/4154804/34785005-e70e4326-f5fd-11e7-8ae6-759c3b0300b5.png)
