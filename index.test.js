@@ -1,7 +1,7 @@
 describe('exact matches', function () {
   it('emits and receives', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a', spy);
     bus.emit('a');
@@ -10,9 +10,9 @@ describe('exact matches', function () {
   });
 
   it('emits and receives multiple', function () {
-    const bus = new Bus();
-    const spy1 = sinon.spy();
-    const spy2 = sinon.spy();
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
 
     bus.on('a', spy1);
     bus.on('a', spy2);
@@ -23,9 +23,9 @@ describe('exact matches', function () {
   });
 
   it('sends message', function () {
-    const bus = new Bus();
-    const expected = 'b';
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var expected = 'b';
+    var spy = sinon.spy();
 
     bus.on('a', spy);
     bus.emit('a', expected);
@@ -36,8 +36,8 @@ describe('exact matches', function () {
 
 describe('wildstar *', function () {
   it('a.* does not find a', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.*', spy);
     bus.emit('a');
@@ -46,8 +46,8 @@ describe('wildstar *', function () {
   });
 
   it('*.a does not find a', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('*.a', spy);
     bus.emit('a');
@@ -56,8 +56,8 @@ describe('wildstar *', function () {
   });
 
   it('a.* finds a.b', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.*', spy);
     bus.emit('a.b');
@@ -66,8 +66,8 @@ describe('wildstar *', function () {
   });
 
   it('*.b finds a.b', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('*.b', spy);
     bus.emit('a.b');
@@ -76,8 +76,8 @@ describe('wildstar *', function () {
   });
 
   it('a.*.c finds a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.*.c', spy);
     bus.emit('a.b.c');
@@ -86,8 +86,8 @@ describe('wildstar *', function () {
   });
 
   it('a.* does not find a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.*', spy);
     bus.emit('a.b.c');
@@ -96,8 +96,8 @@ describe('wildstar *', function () {
   });
 
   it('*.c does not find a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('*.c', spy);
     bus.emit('a.b.c');
@@ -106,8 +106,8 @@ describe('wildstar *', function () {
   });
 
   it('a.*.d does not find a.b.c.d', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.*.d', spy);
     bus.emit('a.b.c.d');
@@ -116,9 +116,9 @@ describe('wildstar *', function () {
   });
 
   it('a.*.d does not find a.b.c.d meanwhile a.#.d does', function () {
-    const bus = new Bus();
-    const spy1 = sinon.spy();
-    const spy2 = sinon.spy();
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
 
     bus.on('a.*.d', spy1);
     bus.on('a.#.d', spy2);
@@ -129,10 +129,10 @@ describe('wildstar *', function () {
   });
 
   it('emits and receives multiple', function () {
-    const bus = new Bus();
-    const spy1 = sinon.spy();
-    const spy2 = sinon.spy();
-    const spy3 = sinon.spy();
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
+    var spy3 = sinon.spy();
 
 
     bus.on('metrics.*', spy1);
@@ -148,8 +148,8 @@ describe('wildstar *', function () {
 
 describe('wildstar #', function () {
   it('a.# finds a.b', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.#', spy);
     bus.emit('a.b');
@@ -158,8 +158,8 @@ describe('wildstar #', function () {
   });
 
   it('a.# finds a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.#', spy);
     bus.emit('a.b.c');
@@ -168,8 +168,8 @@ describe('wildstar #', function () {
   });
 
   it('#.b finds a.b', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('#.b', spy);
     bus.emit('a.b');
@@ -178,8 +178,8 @@ describe('wildstar #', function () {
   });
 
   it('#.c finds a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('#.c', spy);
     bus.emit('a.b.c');
@@ -188,8 +188,8 @@ describe('wildstar #', function () {
   });
 
   it('a.#.c finds a.b.c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.#.c', spy);
     bus.emit('a.b.c');
@@ -198,8 +198,8 @@ describe('wildstar #', function () {
   });
 
   it('a.# finds a', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.#', spy);
     bus.emit('a');
@@ -208,8 +208,8 @@ describe('wildstar #', function () {
   });
 
   it('#.c finds c', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('#.c', spy);
     bus.emit('c');
@@ -218,8 +218,8 @@ describe('wildstar #', function () {
   });
 
   it('a.#.b finds a.b', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a.#.b', spy);
     bus.emit('a.b');
@@ -228,10 +228,10 @@ describe('wildstar #', function () {
   });
 
   it('emits and receives multiple', function () {
-    const bus = new Bus();
-    const spy1 = sinon.spy();
-    const spy2 = sinon.spy();
-    const spy3 = sinon.spy();
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
+    var spy3 = sinon.spy();
 
     bus.on('metrics.#', spy1);
     bus.on('#.changed', spy2);
@@ -244,10 +244,10 @@ describe('wildstar #', function () {
   });
 
   it('avoids unneeded multiples', function () {
-    const bus = new Bus();
-    const spy1 = sinon.spy();
-    const spy2 = sinon.spy();
-    const spy3 = sinon.spy();
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
+    var spy3 = sinon.spy();
 
     bus.on('metrics.#', spy1);
     bus.on('ads.#', spy2);
@@ -262,14 +262,14 @@ describe('wildstar #', function () {
 
 describe('history', function () {
   it('no events and no entries gives no history', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     expect(bus.history('a').length).to.equal(0);
   });
 
   it('mismatched topic gives no history', function () {
-    const bus = new Bus();
+    var bus = new Bus();
 
     bus.emit('a');
 
@@ -277,8 +277,8 @@ describe('history', function () {
   });
 
   it('wildcard * gives selective history', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.emit('a');
     bus.emit('a.b');
@@ -288,8 +288,8 @@ describe('history', function () {
   });
 
   it('wildcard # gives selective history', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.emit('a');
     bus.emit('a.b');
@@ -300,8 +300,8 @@ describe('history', function () {
   });
 
   it('1 entry', function () {
-    const bus = new Bus();
-    const spy = sinon.spy();
+    var bus = new Bus();
+    var spy = sinon.spy();
 
     bus.on('a', spy);
     bus.emit('a');
@@ -313,7 +313,7 @@ describe('history', function () {
 
 describe('Ring', function () {
   it('no events and no entries gives no history', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('hi');
 
@@ -321,7 +321,7 @@ describe('Ring', function () {
   });
 
   it('no events and no entries gives no history', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('a');
     ring.push('b');
@@ -330,7 +330,7 @@ describe('Ring', function () {
   });
 
   it('list can wrap', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('a');
     expect(ring.list).to.deep.equal(['a']);
@@ -343,7 +343,7 @@ describe('Ring', function () {
   });
 
   it('asArray can wrap 2 3', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('a');
     expect(ring.asArray()).to.deep.equal(['a']);
@@ -354,7 +354,7 @@ describe('Ring', function () {
   });
 
   it('asArray can wrap 2 4', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('a');
     expect(ring.asArray()).to.deep.equal(['a']);
@@ -368,7 +368,7 @@ describe('Ring', function () {
 
 
   it('asArray can wrap once', function () {
-    const ring = new Bus.Ring(2);
+    var ring = new Bus.Ring(2);
 
     ring.push('a');
     expect(ring.asArray()).to.deep.equal(['a']);
@@ -383,7 +383,7 @@ describe('Ring', function () {
   });
 
   it('asArray can wrap twice', function () {
-    const ring = new Bus.Ring(5);
+    var ring = new Bus.Ring(5);
 
     ring.push('a');
     expect(ring.asArray()).to.deep.equal(['a']);
