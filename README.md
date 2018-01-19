@@ -114,6 +114,8 @@ These events are stored in a ring buffer, so old events will be dropped from the
 
 Note that this feature is designed for _metrics_, and often the information that people are interested in for metrics can be included as part of the topic.  For example, if you have a subscriber of `on('components.*.render.start')`, then you can have an infinite number of component ids such as `emit('components.abcdef.render.start')` and `emit('components.someRandomId.render.start')` without any additional complexity or performance penalty to the event bus.  If you're trying to access more information that can't be included as part of the topic, then you should make a subscriber and log that information.
 
+Look at our [Examples Page](https://github.com/CondeNast/quick-bus/blob/master/EXAMPLES.md) for some common code patterns with event buses.
+
 ### To Do
 
 - Determine if there is a need to unsubscribe from events, or if it is not worth the cost
