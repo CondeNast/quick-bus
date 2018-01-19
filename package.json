@@ -6,7 +6,9 @@
   "scripts": {
     "build": "uglifyjs --compress --mangle --output index.min.js -- index.js",
     "lint": "eslint .",
-    "test": "karma start",
+    "test": "npm run lint && npm run karma-once",
+    "karma": "karma start",
+    "karma-once": "karma start --single-run",
     "prepublish": "npm run lint && npm test -- --single-run && npm run build"
   },
   "keywords": [
