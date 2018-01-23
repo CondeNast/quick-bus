@@ -260,6 +260,81 @@ describe('wildstar #', function () {
   });
 });
 
+describe('unsubscribe', function () {
+  it('does not receive exact match after unsubscribe', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var off = bus.on('a', spy);
+    off();
+    bus.emit('a');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not receive wildcard a.* match after unsubscribe', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var off = bus.on('a.*', spy);
+    off();
+    bus.emit('a.b');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not receive wildcard *.a match after unsubscribe', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var off = bus.on('*.b', spy);
+    off();
+    bus.emit('a.b');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not receive wildcard a.# match after unsubscribe', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var off = bus.on('a.#', spy);
+    off();
+    bus.emit('a.b');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not receive wildcard #.a match after unsubscribe', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var off = bus.on('#.b', spy);
+    off();
+    bus.emit('a.b');
+
+    sinon.assert.notCalled(spy);
+  });
+
+  it('does not receive wildcard #.a match with multiple subscribers after single unsubscribe', function () {
+    var bus = new Bus();
+    var spy1 = sinon.spy();
+    var spy2 = sinon.spy();
+    var spy3 = sinon.spy();
+
+    bus.on('#.b', spy1);
+    var off = bus.on('#.b', spy2);
+    bus.on('#.b', spy3);
+    off();
+    bus.emit('a.b');
+
+    sinon.assert.called(spy1);
+    sinon.assert.notCalled(spy2);
+    sinon.assert.called(spy3);
+  });
+});
+
+
 describe('history', function () {
   it('no events and no entries gives no history', function () {
     var bus = new Bus();

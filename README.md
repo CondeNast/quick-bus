@@ -32,6 +32,15 @@ channel.on('metrics.#', function (topic, msg) {
 channel.emit('metrics.page.loaded', 'hello world');
 ```
 
+In imitation of Postal.js, use the returned function to stop the events.
+
+```js
+var off = channel.on('page.load.justOnce', function (topic, msg) {
+  console.log(topic, msg);
+  off();
+});
+```
+
 If you like the pub/sub model better, we've aliased `subscribe` and `publish` as well:
 
 ```js
@@ -42,6 +51,20 @@ channel.subscribe('metrics.#', function (topic, msg) {
 });
 
 channel.publish('metrics.page.loaded', 'hello world');
+```
+
+And of course to unsubscribe, use the returned function:
+
+```js
+var unsubscribe = channel.subscribe('#', function (topic, msg) {
+  console.log(Date.now(), topic, msg);
+});
+
+for (var i = 0; i < 10; i++) {
+  channel.publish('welcome.' + i, 'hello world!');
+}
+
+unsubscribe();
 ```
 
 ### How it works
