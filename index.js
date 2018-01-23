@@ -114,9 +114,18 @@ var Bus = (function () {
 
     function on(topicStr, fn) {
       var lastNode = add(topicStr.split('.'), head);
-      lastNode.fn = lastNode.fn || [];
-      lastNode.fn.push(fn);
+      var fnList = lastNode.fn || [];
+      fnList.push(fn);
+      lastNode.fn = fnList;
       emitCache = {}; // forget graph lookups because everything has changed
+
+      // return off() function to unsubscribe
+      return function () {
+        var index = fnList.indexOf(fn);
+        if (index > -1) {
+          fnList.splice(index, 1);
+        }
+      }
     }
 
     function emit(topicStr, message) {
