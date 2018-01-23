@@ -141,7 +141,6 @@ Look at our [Examples Page](https://github.com/CondeNast/quick-bus/blob/master/E
 
 ### To Do
 
-- Determine if there is a need to unsubscribe from events, or if it is not worth the cost
 - Determine if the "meta" field from Postal.js should be included, or if that's just weight that the Promise API hates
 - Should we expose timing information or the ids of messages?
 - Would an async mechanism that would collect, buffer, or throttle messages be useful?  Would an event queue be used?
