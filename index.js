@@ -129,13 +129,15 @@ var Bus = (function () {
     }
 
     function emit(topicStr, message) {
-      historyCache.push([topicStr, Date.now()]);
+      var ts = Date.now();
+      historyCache.push([topicStr, ts]);
       var list = getCachedList(topicStr, head, emitCache);
+      var meta = {topic: topicStr};
 
       for (var i = 0; i < list.length; i++) {
         var fn = list[i];
         for (var j = 0; j < fn.length; j++) {
-          fn[j](topicStr, message);
+          fn[j](message, meta);
         }
       }
     }
