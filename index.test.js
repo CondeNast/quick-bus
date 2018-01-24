@@ -22,7 +22,7 @@ describe('exact matches', function () {
     sinon.assert.called(spy2);
   });
 
-  it('sends message', function () {
+  it('can send strings as message', function () {
     var bus = new Bus();
     var expected = 'b';
     var spy = sinon.spy();
@@ -30,7 +30,29 @@ describe('exact matches', function () {
     bus.on('a', spy);
     bus.emit('a', expected);
 
-    sinon.assert.calledWith(spy, sinon.match.any, expected);
+    sinon.assert.calledWith(spy, expected);
+  });
+
+  it('can send objects without changing reference', function () {
+    var bus = new Bus();
+    var expected = {};
+    var spy = sinon.spy();
+
+    bus.on('a', spy);
+    bus.emit('a', expected);
+
+    sinon.assert.calledWith(spy, expected);
+  });
+
+  it('can send objects without changing reference', function () {
+    var bus = new Bus();
+    var expected = {topic: 'a'};
+    var spy = sinon.spy();
+
+    bus.on('a', spy);
+    bus.emit('a', {});
+
+    sinon.assert.calledWith(spy, sinon.match.any, sinon.match(expected));
   });
 });
 

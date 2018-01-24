@@ -25,8 +25,8 @@ Use the `emit` and `on` methods, just like a regular event emitter.
 ```js
 var channel = new Bus();
 
-channel.on('metrics.#', function (topic, msg) {
-  console.log(topic, msg);
+channel.on('metrics.#', function (msg) {
+  console.log(msg);
 });
 
 channel.emit('metrics.page.loaded', 'hello world');
@@ -35,9 +35,17 @@ channel.emit('metrics.page.loaded', 'hello world');
 In imitation of Postal.js, use the returned function to stop the events.
 
 ```js
-var off = channel.on('page.load.justOnce', function (topic, msg) {
-  console.log(topic, msg);
+var off = channel.on('page.load.justOnce', function (msg) {
+  console.log(msg);
   off();
+});
+```
+
+Also in imitation of Postal.js, use the second parameter to get the topic that triggered the event.
+
+```js
+var off = channel.on('page.ad.*.filled', function (msg, meta) {
+  console.log(meta.topic + 'just happened');
 });
 ```
 
@@ -46,8 +54,8 @@ If you like the pub/sub model better, we've aliased `subscribe` and `publish` as
 ```js
 var channel = new Bus();
 
-channel.subscribe('metrics.#', function (topic, msg) {
-  console.log(topic, msg);
+channel.subscribe('metrics.#', function (msg) {
+  console.log(msg);
 });
 
 channel.publish('metrics.page.loaded', 'hello world');
@@ -56,8 +64,8 @@ channel.publish('metrics.page.loaded', 'hello world');
 And of course to unsubscribe, use the returned function:
 
 ```js
-var unsubscribe = channel.subscribe('#', function (topic, msg) {
-  console.log(Date.now(), topic, msg);
+var unsubscribe = channel.subscribe('#', function (msg) {
+  console.log(Date.now(), msg);
 });
 
 for (var i = 0; i < 10; i++) {
@@ -78,14 +86,14 @@ Supports same wildcards as Postal.js, such as:
 #### Zero or more words using `#`
 
 ```js
-channel.subscribe('#.changed', function (topic, msg) {
+channel.subscribe('#.changed', function (msg) {
   // ...
 });
 channel.emit('what.has.changed', event);
 ```
 
 ```js
-channel.subscribe('metrics.#.changed', function (topic, msg) {
+channel.subscribe('metrics.#.changed', function (msg) {
   // ...
 });
 channel.emit('metrics.something.important.has.changed', event);
@@ -94,7 +102,7 @@ channel.emit('metrics.something.important.has.changed', event);
 #### Single word using `*`
 
 ```js
-channel.subscribe('ads.slot.*.filled', function (topic, msg) {
+channel.subscribe('ads.slot.*.filled', function (msg) {
   // ...
 });
 channel.emit('ads.slot.post-nav.filled', {data, msg});
