@@ -3,6 +3,12 @@
   "version": "0.2.0",
   "description": "A tiny and fast event bus with AMQP and Postal.js-like functionality",
   "main": "index.min.js",
+  "files": [
+    "index.min.js"
+  ],
+  "browserslist": [
+    "last 2 years"
+  ],
   "scripts": {
     "build": "uglifyjs --compress --mangle --output index.min.js -- index.js",
     "lint": "eslint .",
@@ -21,6 +27,7 @@
   ],
   "author": "Dane Stuckel",
   "license": "Apache-2.0",
+  "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
     "eslint": "^5.10.0",
@@ -34,12 +41,5 @@
     "mocha": "^5.2.0",
     "sinon": "^7.2.2",
     "uglify-js": "^3.4.9"
-  },
-  "files": [
-    "index.min.js"
-  ],
-  "dependencies": {},
-  "browserslist": [
-    "last 2 years"
-  ]
+  }
 }
