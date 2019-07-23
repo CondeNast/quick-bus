@@ -129,17 +129,17 @@ var history = channel.history('metrics.component.*.render.*');
 ```
 
 The format is an array of arrays.  For example:
-```json
+```js
 [
-  ["ads.slot.post-nav.filled", 1515714470550],
-  ["ads.slot.side-rail.filled", 1515714470559],
-  ["ads.slot.instream-banner-0.filled", 1515714500268],
-  ["metrics.component.absdf2324.render.start", 1515714782584],
-  ["metrics.component.absdf2324.render.end", 1515714790507],
+  ["ads.slot.post-nav.filled", 1515714470550, '{"data":1,"msg":2}'],
+  ["ads.slot.side-rail.filled", 1515714470559, '{"thing":1,"stuff":2}'],
+  ["ads.slot.instream-banner-0.filled", 1515714500268, '{"a":1,"b":2}'],
+  ["metrics.component.absdf2324.render.start", 1515714782584, '{"a":"a", "b":"b"}'],
+  ["metrics.component.absdf2324.render.end", 1515714790507, '{"a":"a", "b":"b"}'],
 ]
 ```
 
-Only the topic and the timestamp of each event is stored.  We don't store the message/payload in the history to prevent potential memory leaks and scoping issues.
+Only the topic and the timestamp of each event is stored.  We don't store the raw message/payload in the history to prevent potential memory leaks and scoping issues, instead storing a serialized version of the payload.
 
 These events are stored in a ring buffer, so old events will be dropped from the history once it reaches a certain size.  The history size is current set to a maximum of 9999 events.
 

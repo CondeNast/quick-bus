@@ -130,7 +130,7 @@ var Bus = (function () {
 
     function emit(topicStr, message) {
       var ts = Date.now();
-      historyCache.push([topicStr, ts]);
+      historyCache.push([topicStr, ts, JSON.stringify(message)]);
       var list = getCachedList(topicStr, head, emitCache);
       var meta = {topic: topicStr};
 

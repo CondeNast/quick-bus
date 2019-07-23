@@ -406,6 +406,17 @@ describe('history', function () {
 
     sinon.assert.called(spy);
   });
+
+  it('get serialized object from history', function () {
+    var bus = new Bus();
+    var spy = sinon.spy();
+
+    var data = {hello: "world"};
+
+    bus.on('a', spy);
+    bus.emit('a', data);
+    expect(bus.history('a')[0][2]).to.equal(JSON.stringify(data));
+  });
 });
 
 describe('Ring', function () {
@@ -508,5 +519,3 @@ describe('Ring', function () {
     expect(ring.asArray()).to.deep.equal(['h', 'i', 'j', 'k', 'l']);
   });
 });
-
-

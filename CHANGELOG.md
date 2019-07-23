@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [x.y.z]: https://github.com/CondeNast/tk/compare/1.0.0...x.y.z
 -->
 
+## [0.3.0] - 2019-07-23
+- **Added** History now contains serialized message payload
+
 ## [Unreleased]
 - Initial Release
 
