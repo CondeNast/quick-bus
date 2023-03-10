@@ -30,9 +30,9 @@
     "license": "Apache-2.0",
     "devDependencies": {
         "chai": "4.3.7",
-        "eslint": "6.1.0",
-        "eslint-plugin-compat": "3.3.0",
-        "eslint-plugin-import": "2.18.2",
+        "eslint": "8.35.0",
+        "eslint-plugin-compat": "4.1.2",
+        "eslint-plugin-import": "2.27.5",
         "karma": "6.4.1",
         "karma-chai": "0.1.0",
         "karma-chrome-launcher": "3.1.1",
@@ -40,6 +40,6 @@
         "karma-sinon": "1.0.5",
         "mocha": "10.2.0",
         "sinon": "15.0.1",
-        "uglify-js": "3.6.0"
+        "uglify-js": "3.17.4"
     }
 }
